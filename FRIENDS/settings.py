@@ -128,9 +128,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 SITE_ID = 1
 
-STATIC_DIRS = [
+STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') 
+
 
 LOGIN_URL = 'accounts/login'
 LOGIN_REDIRECT_URL = '/'
