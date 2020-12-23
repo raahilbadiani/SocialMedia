@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block extra_head%}
+<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cssforlogin.css' %}">
+</head>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+<div class="big-box">
+	<div class="text"> {% trans "Sign Up" %}
+		</div>
+
+	<p class="ml-1">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+	<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+	  {% csrf_token %}
+	  <i class="fas fa-envelope-square icon"></i>{{ form.username }}<br>
+	  <i class="fas fa-envelope-square icon"></i>{{ form.email }}
+          <br>
+          <i class="fas fa-lock icon"></i>{{ form.password1 }}<br>
+          <i class="fas fa-lock icon"></i>{{ form.password2 }}
+  <div class="ml-1">
+          {% if redirect_field_value %}
+	  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	  {% endif %}
+	  <button class="btn" type="submit">{% trans "Sign Up" %} &raquo;</button>
+	</div>
+	</form>
+</div>
+</div>
+{% endblock %}
