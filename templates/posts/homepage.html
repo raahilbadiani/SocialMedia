@@ -1,0 +1,81 @@
+{% extends "../account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+<!-- 
+{% block head_title %}{% trans HOMEPAGE%}{% endblock %} -->
+
+{% block navblock %}
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">TITLE</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="posts/post" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div>
+						<label for="TextPost" class="form-label">Text</label>
+						<!-- <input type="textarea" class="form-control" name="postText" id="TextPost"> -->
+						<textarea name="post_text" id="TextPost" cols="30" rows="10"></textarea>
+					</div>
+					<br>
+					<div>
+						<label for="PicturePost" class="form-label">Pic</label>
+						<input type="file" class="form-control" name="post_image" id="PicturePost">
+
+					</div>
+					<hr>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">POST</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block nav-btn %}
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+	data-bs-target="#exampleModal">POST</button>
+{% endblock %}
+
+{% block content %}
+<div class="row" style="text-align: center;">
+	<h1>HOMEPAGE</h1>
+</div>
+{% for i in posts %}
+<div class="container my-4">
+	<div class="row justify-content-center ">
+		<div class="col-md-8 col-sm-10">
+			<div class="card">
+				<div class="card-header">
+					<h4>{{i.user}}</h4> <small>{{ i.date.date }}</small>
+				</div>
+				{% if i.img %}
+				<img class="card-img-top" src="{{ i.img.url }}" alt="">
+				{% endif %}
+				<div class="card-body">
+					<p class="card-text">{{ i.captions }}</p>
+					<div class="row">
+					<a class="btn btn-primary mx-1 btn-sm col-2">Like</a>
+					<a class="btn btn-warning mx-1 btn-sm col-3" type="">Comment</a>
+					<a class="btn btn-dark mx-1 btn-sm col-2">Share</a>
+					{% if i.user == request.user %}
+					<a class="btn btn-danger ms-4 btn-sm pull-right col-3" href="{% url 'deletepost' i.id %}">Delete</a>
+					{% endif %}
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock %}
