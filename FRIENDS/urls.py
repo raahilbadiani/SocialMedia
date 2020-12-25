@@ -19,6 +19,7 @@ import posts.views
 from django.conf import settings
 from django.conf.urls.static import static
 
+print('urls.py')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('posts.urls'),name="posts"),

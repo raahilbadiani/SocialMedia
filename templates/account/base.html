@@ -3,74 +3,63 @@
 
 <head>
   <title>{% block head_title %}{% endblock %}</title>
-  {% block extra_head %}
-  {% endblock %}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  {% block extra_head %}
+  {% endblock %}
 </head>
 
 <body>
   {% block body %}
+  <div>
+    <!-- <ul> -->
 
-  {% if messages %}
-  <!-- <div>
-    <strong>Messages:</strong>
-    <ul>
-      {% for message in messages %}
-      <small>{{message}}</small>
-      {% endfor %}
-    </ul>
-  </div> -->
-  {% endif %}
+    <!-- <div class="container-fluid"> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid " >
 
-  <!-- <div> -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">F.R.I.E.N.D.S</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#">F.R.I.E.N.D</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'homePage' %}">Home</a>
-          </li>         
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'account_email' %}">Change email</a>
+            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'account_logout' %}">Sign Out</a>
-          </li>
-          
           {% block navblock %}{%endblock%}
+          {% block nav-btn %}{% endblock %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account_email' %}">Change E-mail</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a>
+          </li>
         
+         
+
+
+
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'account_login' %}">Login</a>
+            <a class="nav-link active" href="{% url 'account_login' %}">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'account_signup' %}">Sign Up</a>
+            <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
           </li>
-          {% endif %}
+
 
         </ul>
-        {% block nav-btn %}{% endblock %}
+        {% endif %}
       </div>
-    </div>
-  </nav>
-  <!-- <ul class="nav nav-pills nav-fill">
-    {% if user.is_authenticated %}
-    
-    <li class="nav-item"><a class="nav-link" href="{% url 'account_email' %}">Change email</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
-    {% else %}
-    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
-    <li class="nav-ites"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
-    {% endif %}
-  </ul> -->
-  <!-- </div> -->
+
+    </nav>
+    <!-- </div> -->
+    <!-- </ul> -->
+  </div>
   {% block content %}
   {% endblock %}
   {% endblock %}

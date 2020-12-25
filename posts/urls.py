@@ -18,11 +18,14 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     
-    path('',views.homePage,name="homePage"),
+    path('',views.homePageOne,name="homePage"),
     path('homepage',views.homePage,name="homepage"),
     path('post',views.post,name="post"),
+    path('<int:postId>',views.likePost,name="likepost"),
     path("<int:postId>",views.deletePost,name="deletepost"),
-    # path("<str:username>",views.userProfile,name="userProfile"),
+    path("<str:username>",views.userProfile,name="userProfile"),
 ]
+print('posts/urls.py')

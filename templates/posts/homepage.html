@@ -18,7 +18,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form action="posts/post" method="POST" enctype="multipart/form-data">
+				<form action="post" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div>
 						<label for="TextPost" class="form-label">Text</label>
@@ -43,39 +43,52 @@
 {% endblock %}
 
 {% block nav-btn %}
-<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-	data-bs-target="#exampleModal">POST</button>
-{% endblock %}
+<li class="nav-item">
+	<a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">POST</a>
+</li>
+<li>
+	<form class="form-inline">
+		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	</form>
 
-{% block content %}
-<div class="row" style="text-align: center;">
-	<h1>HOMEPAGE</h1>
-</div>
-{% for i in posts %}
-<div class="container my-4">
-	<div class="row justify-content-center ">
-		<div class="col-md-8 col-sm-10">
-			<div class="card">
-				<div class="card-header">
-					<h4>{{i.user}}</h4> <small>{{ i.date.date }}</small>
-				</div>
-				{% if i.img %}
-				<img class="card-img-top" src="{{ i.img.url }}" alt="">
-				{% endif %}
-				<div class="card-body">
-					<p class="card-text">{{ i.captions }}</p>
-					<div class="row">
-					<a class="btn btn-primary mx-1 btn-sm col-2">Like</a>
-					<a class="btn btn-warning mx-1 btn-sm col-3" type="">Comment</a>
-					<a class="btn btn-dark mx-1 btn-sm col-2">Share</a>
-					{% if i.user == request.user %}
-					<a class="btn btn-danger ms-4 btn-sm pull-right col-3" href="{% url 'deletepost' i.id %}">Delete</a>
-					{% endif %}
-				</div>
+	{% endblock %}
+
+	{% block content %}
+	<div class="row" style="text-align: center;">
+		<h1>HOMEPAGE</h1>
+	</div>
+
+	{% for i in posts %}
+	<div class="container my-4">
+		<div class="row justify-content-center ">
+			<div class="col-md-6 col-sm-10">
+				<div class="card" style="max-height: 600px;">
+					<div class="card-header">
+						<h4><a href="{% url 'userProfile' i.user %}" style="color: black;">{{i.user}}</a></h4> <small
+							class="text-muted">{{i.date.date}} {{ i.date.time }}</small>
+					</div>
+					<div class="container">
+						{% if i.img %}
+						<img class="card-img-top" src="{{ i.img.url }}" alt=""
+							style="border: 1px solid grey; height:400px; width:400px; border-radius: 1cm;">
+						{% endif %}
+					</div>
+					<div class="card-body">
+						<p class="card-text">{{ i.captions }}</p>
+						<div class="row">
+							<a class="btn btn-primary mx-1 btn-sm col-2" href="{% url 'likepost' i.id %}">Like</a>
+							<a class="btn btn-warning mx-1 btn-sm col-3" type="">Comment</a>
+							<a class="btn btn-dark mx-1 btn-sm col-2">Share</a>
+							{% if i.user == request.user %}
+							<a class="btn btn-danger ms-4 btn-sm pull-right col-3"
+								href="{% url 'deletepost' i.id %}">Delete</a>
+							{% endif %}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-{% endfor %}
-{% endblock %}
+	{% endfor %}
+	{% endblock %}
