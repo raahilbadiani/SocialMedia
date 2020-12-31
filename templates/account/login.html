@@ -5,19 +5,48 @@
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 {% block extra_head%}
-<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/cssforlogin.css' %}">
 </head>
-
 {% endblock %}
+
+{% block body %}
+<div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">F.R.I.E.N.D</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mt-2 mt-lg-0">
+              <li class="nav-item"> <a class="nav-link active" href="{% url 'account_login' %}">Sign In</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+            </ul>
+      </div>
+      </div>
+    </nav>
+  </div>
+{% endblock %}
+
 {% block content %}
 <div class="box">
-<div class="big-box">
-  <div class="text"> {% trans "Sign In" %}</div>
-  <form class="login" method="POST" action="{% url 'account_login' %}">
+  <div class="container">
+  {% if messages %}
+        {% for message in messages %}
+        <div class="alert">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+          {{message}}
+      </div>
+        {% endfor %}
+    {% endif %}
+  </div>
+  <div class="big-box">
+    <div class="text"> {% trans "Sign In" %}</div>
+    <form class="login" method="POST" action="{% url 'account_login' %}">
     {% csrf_token %}
           <i class="fas fa-envelope-square icon"></i>{{ form.login }}
           <br>
@@ -29,33 +58,11 @@
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="btn" type="submit" >{% trans "Sign In" %}</button>
-
-      {% get_providers as socialaccount_providers %}
-
-      {% if socialaccount_providers %}
-      <p>{% blocktrans with site.name as site_name %}Please sign in with one
-      of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-      for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-      <div class="socialaccount_ballot">
-
-        <ul class="socialaccount_providers">
-          {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-        </ul>
-
-        <div class="login-or">{% trans 'or' %}</div>
-
-      </div>
-
-      {% include "socialaccount/snippets/login_extra.html" %}
-
-      {% else %}
+    <button class="btnn" type="submit" >{% trans "Sign In" %}</button>
       <p>{% blocktrans %}<div class="small-text">Not a Memeber?
-      <a href="{{ signup_url }}">sign up</a>{% endblocktrans %}</div></p>
-      {% endif %}
-  </form>
-</div>
+      <a href="{{ signup_url }}" class="sign-up-link">sign up</a>{% endblocktrans %}</div></p>
+    </form>
+  </div>
 </div>
 {% endblock %}
 

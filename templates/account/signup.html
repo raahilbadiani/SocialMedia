@@ -5,7 +5,6 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block extra_head%}
-<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <head>
@@ -13,8 +12,38 @@
 </head>
 {% endblock %}
 
+{% block body %}
+<div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">F.R.I.E.N.D</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mt-2 mt-lg-0">
+              <li class="nav-item"> <a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
+              <li class="nav-item"> <a class="nav-link active" href="{% url 'account_signup' %}">Sign Up</a></li>
+            </ul>
+      </div>
+      </div>
+    </nav>
+  </div>
+{% endblock %}
+
 {% block content %}
 <div class="box">
+  <div class="container">
+  {% if messages %}
+        {% for message in messages %}
+        <div class="alert">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+          {{message}}
+      </div>
+        {% endfor %}
+    {% endif %}
+  </div>
 <div class="big-box">
 	<div class="text"> {% trans "Sign Up" %}
 		</div>
@@ -28,11 +57,11 @@
           <br>
           <i class="fas fa-lock icon"></i>{{ form.password1 }}<br>
           <i class="fas fa-lock icon"></i>{{ form.password2 }}
-  <div class="ml-1">
+    <div class="ml-1">
           {% if redirect_field_value %}
 	  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 	  {% endif %}
-	  <button class="btn" type="submit">{% trans "Sign Up" %} &raquo;</button>
+	  <button class="btnn" type="submit">{% trans "Sign Up" %} &raquo;</button>
 	</div>
 	</form>
 </div>
