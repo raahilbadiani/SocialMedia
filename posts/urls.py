@@ -24,8 +24,9 @@ urlpatterns = [
     path('',views.homePageOne,name="homePage"),
     path('homepage',views.homePage,name="homepage"),
     path('post',views.post,name="post"),
-    path('<int:postId>',views.likePost,name="likepost"),
-    path("<int:postId>",views.deletePost,name="deletepost"),
-    path("<str:username>",views.userProfile,name="userProfile"),
+    path('delete/<int:postId>',views.deletePost,name="deletepost"),
+    path('like/<int:postId>',views.likePost,name="likepost"),
+    path('comment/<int:postId>',views.commentPost,name="commentpost"),
+    path('<str:username>',views.userProfile,name="userProfile"),
 ]
 print('posts/urls.py')

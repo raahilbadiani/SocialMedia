@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Post,Profile,Uzr,Like
 from django.contrib import messages
@@ -14,7 +14,12 @@ print(BASR_DIR)
 def homePage(request):
 	print("homePage")
 	posts = Post.objects.all().order_by('-pk')
-	data = {'posts':posts,'base_dir':BASR_DIR}
+	liked_posts = [i for i in posts if Like.objects.filter(post=i,user=request.user)]
+	
+	data = {
+		'posts':posts,
+		'liked_posts':liked_posts,	
+	}
 	return render(request,"posts/homepage.html",data)
 
 
@@ -79,9 +84,17 @@ def likePost(request,postId):
 	post = Post.objects.get(pk=postId)
 	user = request.user
 	like = Like.objects.filter(post=post,user=user)
+	like_boolean = False
 	if like : 
+		print('disliking')
 		Like.dislikeMethod(post,user)
 	else :
+		like_boolean = True
+		print('liking')
 		Like.likeMethod(post,user)
-	return redirect("/")
+	
+	return JsonResponse({'status':like_boolean})
 
+def commentPost(request,postId):
+	print('commenting..')
+	return HttpResponse('commenttt')

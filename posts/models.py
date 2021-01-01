@@ -14,7 +14,7 @@ class Post(models.Model):
 
 class Profile(models.Model):
 	user = models.ForeignKey(Uzr,on_delete=models.CASCADE)
-	userdp = models.ImageField(upload_to="profile")
+	userdp = models.ImageField(upload_to="profile",default="profile/dp_def_male.jpg")
 	bio = models.CharField(max_length=500,blank=True)
 	connetWithMe = models.URLField(max_length=100,blank=True)
 	friends = models.IntegerField(default=0)
@@ -38,3 +38,12 @@ class Like(models.Model):
 	
 	def __str__(self):
 		return str(self.post)
+	
+class Comment(models.Model):
+	post = models.ForeignKey(Post,related_name="comments",on_delete=models.CASCADE)
+	name_of_commenter = models.CharField(max_length=255)
+	comment_text = models.TextField()
+	time_of_comment = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return '%s -> %s \t %s' %  (self.post.get_user(),comment_text,name_of_commenter)

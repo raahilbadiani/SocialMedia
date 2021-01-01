@@ -58,7 +58,7 @@
 		<div class="row">
 			{% for i in posts %}
 			<div class="col-lg-6 col-md-12">
-				<div class="card" style="max-height: 600px; margin: 1rem;">
+				<div class="card post_div" style="max-height: 600px; margin: 1rem;" id={{i.id}}>
 					<div class="card-header">
 						{% if 0 %}
 						{% else %}
@@ -70,17 +70,21 @@
 					<div class="card-body" style="overflow: auto;">
 						{% if i.img %}
 						<img class="card-img-top" src="{{ i.img.url }}" alt=""
-							style="border: 1px solid grey; height:400px; width:400px; border-radius: 1cm;display: block; margin: 0 auto 1rem auto;">
+							style="border: 1px solid grey; height:400px; width:400px;display: block; margin: 0 auto 1rem auto;">
 						{% endif %}
 						<p class="card-text">{{ i.captions }}</p>
 					</div>
 					<div class="card-footer d-flex justify-content-evenly">
-							<a class="btn btn-primary btn-sm" href="{% url 'likepost' i.id %}"><i class="far fa-thumbs-up"></i></a>
-							<a class="btn btn-warning btn-sm" type=""><i class="far fa-comment-alt"></i></a>
-							<a class="btn btn-dark btn-sm"><i class="fas fa-share"></i></a>
+							{% if i in liked_posts %}
+								<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="fas fa-thumbs-up fa-2x"></i></a>
+							{% else %}
+								<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="far fa-thumbs-up fa-2x"></i></a>
+							{% endif %}
+							<!-- <a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="far fa-thumbs-up"></i></a> -->
+							<a class="comment" href="{% url 'commentpost' i.id %}" id="{{i.id}}"><i class="far fa-comment fa-2x"></i></a>
+							<a class="share"><i class="fas fa-share fa-2x"></i></a>
 							{% if i.user == request.user %}
-							<a class="btn btn-danger btn-sm" href="{% url 'deletepost' i.id %}"><i class="far fa-trash-alt"></i>
-							</a>
+							<a class="delete" href="{% url 'deletepost' i.id %}" id="{{i.id}}"><i class="far fa-trash-alt fa-2x"></i></a>
 							{% endif %}
 					</div>
 				</div>
@@ -121,4 +125,50 @@
 		</div>
 	</div>
 </div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+	$(".delete").click(function (x) {
+		var id = this.id;
+		var href = this.href;
+		console.log('delete btn pressed');
+		console.log(id);
+		console.log(href);
+		x.preventDefault();
+
+		$.ajax({
+			url: href,
+			data: {},
+		});
+		var to_fade = ("#" + id+".post_div");
+		console.log(to_fade);
+		$(to_fade).fadeOut(1000);
+	});
+
+	$(".like").click(function (x) {
+		var id = this.id;
+		var href = this.href;
+		console.log('like btn pressed');
+		console.log(id);
+		console.log(href);
+		x.preventDefault();
+
+		$.ajax({
+			url: href,
+			data: {},
+			success: function (data) {
+				console.log(data);
+				if (data.status) {
+					console.log(".like#" + id);
+					$("#" + id + ".like").html('<i class="fas fa-thumbs-up fa-2x"></i>');
+				} else {
+					console.log(".like#"+id);
+					$("#" + id + ".like").html('<i class="far fa-thumbs-up fa-2x"></i>');
+				}
+			}
+		});
+	});
+</script>
 {% endblock %}
