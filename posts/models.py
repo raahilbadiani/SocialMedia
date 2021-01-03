@@ -13,7 +13,7 @@ class Post(models.Model):
 		return user
 
 class Profile(models.Model):
-	user = models.ForeignKey(Uzr,on_delete=models.CASCADE)
+	user = models.OneToOneField(Uzr,on_delete=models.CASCADE,related_name='profile')
 	userdp = models.ImageField(upload_to="profile",default="profile/dp_def_male.jpg")
 	bio = models.CharField(max_length=500,blank=True)
 	connetWithMe = models.URLField(max_length=100,blank=True)
@@ -47,3 +47,12 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return '%s -> %s \t %s' %  (self.post.get_user(),comment_text,name_of_commenter)
+
+
+class FriendRequest(models.Model):
+	to_user = models.ForeignKey(Uzr,related_name="to_user",on_delete=models.CASCADE)
+	from_user = models.ForeignKey(Uzr,related_name="from_user",on_delete=models.CASCADE)
+	time_of_request_sending = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return "Request sent from {} to {} at {}".format(self.from_user.username,self.to_user.username,self.time_of_request_sending)

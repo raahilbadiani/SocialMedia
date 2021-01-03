@@ -8,91 +8,124 @@
 {% block extra_head%}
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cssforlogin.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/cssforlogin.css' %}">
 </head>
 {% endblock %}
 
 
 {% block body%}
 <div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">F.R.I.E.N.D</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mt-2 mt-lg-0">
-              <li class="nav-item"> <a class="nav-link active" href="{% url 'homepage' %}">Home</a> </li>
-              <li class="nav-item"> <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">POST</a></li>
-              <li class="nav-item"> <a class="nav-link" href="{% url 'homepage' %}">Profile</a> </li>
-            </ul>
-            <form class="d-flex">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success" type="submit">Search</button>
-			</form>
-			<ul class="navbar-nav mt-2 mt-lg-0">
-			<li class="nav-item"> <a class="nav-link" href="{% url 'account_email' %}">Change E-mail</a></li>
-             <li class="nav-item"> <a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a> </li>
-         </ul>
-      </div>
-      </div>
-    </nav>
-  </div>
-	<div style="height: 60px;">
-	</div>
-	<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">F.R.I.E.N.D</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mt-2 mt-lg-0">
+					<li class="nav-item"> <a class="nav-link active" href="{% url 'homepage' %}">Home</a> </li>
+					<li class="nav-item"> <a type="button" class="nav-link" data-bs-toggle="modal"
+							data-bs-target="#exampleModal">POST</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'homepage' %}">Profile</a> </li>
+				</ul>
+				<form class="d-flex">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+				<ul class="navbar-nav mt-2 mt-lg-0">
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="far fa-bell"></i>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">item1</a>
+							<a class="dropdown-item" href="#">item2</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="far fa-comments"></i>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">item1</a>
+							<a class="dropdown-item" href="#">item2</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'account_email' %}">Change E-mail</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a> </li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+<div style="height: 60px;">
+</div>
+<div class="container">
 	{% if messages %}
-        {% for message in messages %}
-        <div class="alert">
-        	<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-        	{{message}}
-    	</div>
-        {% endfor %}
-    {% endif %}
+	{% for message in messages %}
+	<div class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		{{message}}
 	</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			{% for i in posts %}
-			<div class="col-lg-6 col-md-12">
-				<div class="card post_div" style="max-height: 600px; margin: 1rem;" id={{i.id}}>
-					<div class="card-header">
-						{% if 0 %}
-						{% else %}
-						<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" style="height: 3rem; width: 3rem; border-radius: 100%; margin-right: 0.5rem;">
-						{% endif %}
-						<div style="display: inline-block; font-size: 1.5rem"><a href="{% url 'userProfile' i.user %}" style="color: black;">{{i.user}}</a></div>
-						<br> <small class="text-muted">{{i.date.date}} {{ i.date.time }}</small>
-					</div>
-					<div class="card-body" style="overflow: auto;">
-						{% if i.img %}
-						<img class="card-img-top" src="{{ i.img.url }}" alt=""
-							style="border: 1px solid grey; height:400px; width:400px;display: block; margin: 0 auto 1rem auto;">
-						{% endif %}
-						<p class="card-text">{{ i.captions }}</p>
-					</div>
-					<div class="card-footer d-flex justify-content-evenly">
-							{% if i in liked_posts %}
-								<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="fas fa-thumbs-up fa-2x"></i></a>
-							{% else %}
-								<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="far fa-thumbs-up fa-2x"></i></a>
-							{% endif %}
-							<!-- <a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="far fa-thumbs-up"></i></a> -->
-							<a class="comment" href="{% url 'commentpost' i.id %}" id="{{i.id}}"><i class="far fa-comment fa-2x"></i></a>
-							<a class="share"><i class="fas fa-share fa-2x"></i></a>
-							{% if i.user == request.user %}
-							<a class="delete" href="{% url 'deletepost' i.id %}" id="{{i.id}}"><i class="far fa-trash-alt fa-2x"></i></a>
-							{% endif %}
-					</div>
+	{% endfor %}
+	{% endif %}
+</div>
+</div>
+<div class="container">
+	<div class="row">
+		{% for i in posts %}
+		<div class="col-lg-6 col-md-12">
+			<div class="card post_div" style="max-height: 600px; margin: 1rem;" id={{i.id}}>
+				<div class="card-header">
+					{% if 0 %}
+					{% else %}
+					<img src="{{ i.user.profile.userdp.url }}"
+						style="height: 3rem; width: 3rem; border-radius: 100%; margin-right: 0.5rem;">
+					{% endif %}
+					<div style="display: inline-block; font-size: 1.5rem"><a href="{% url 'userProfile' i.user %}"
+							style="color: black;">{{i.user}}</a></div>
+					<br> <small class="text-muted">{{i.date.date}} {{ i.date.time }}</small>
+				</div>
+				<div class="card-body" style="overflow: auto;">
+					{% if i.img %}
+					<img class="card-img-top" src="{{ i.img.url }}" alt=""
+						style="border: 1px solid grey; height:400px; width:400px;display: block; margin: 0 auto 1rem auto;">
+					{% endif %}
+					<p class="card-text">{{ i.captions }}</p>
+				</div>
+				<div class="card-footer d-flex justify-content-evenly">
+					{% if i in liked_posts %}
+					<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i
+							class="fas fa-thumbs-up fa-2x"></i></a>
+					{% else %}
+					<a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i
+							class="far fa-thumbs-up fa-2x"></i></a>
+					{% endif %}
+					<!-- <a class="like" href="{% url 'likepost' i.id %}" id="{{i.id}}"><i class="far fa-thumbs-up"></i></a> -->
+					<a class="comment" href="{% url 'commentpost' i.id %}" id="{{i.id}}"><i
+							class="far fa-comment fa-2x"></i></a>
+					<a class="share"><i class="fas fa-share fa-2x"></i></a>
+					{% if i.user == request.user %}
+					<a class="delete" href="{% url 'deletepost' i.id %}" id="{{i.id}}"><i
+							class="far fa-trash-alt fa-2x"></i></a>
+					{% endif %}
 				</div>
 			</div>
-			{% endfor %}
 		</div>
+		{% endfor %}
 	</div>
-	
+</div>
+
 {% endblock %}
 
 {% block content %}
@@ -142,7 +175,7 @@
 			url: href,
 			data: {},
 		});
-		var to_fade = ("#" + id+".post_div");
+		var to_fade = ("#" + id + ".post_div");
 		console.log(to_fade);
 		$(to_fade).fadeOut(1000);
 	});
@@ -164,7 +197,7 @@
 					console.log(".like#" + id);
 					$("#" + id + ".like").html('<i class="fas fa-thumbs-up fa-2x"></i>');
 				} else {
-					console.log(".like#"+id);
+					console.log(".like#" + id);
 					$("#" + id + ".like").html('<i class="far fa-thumbs-up fa-2x"></i>');
 				}
 			}
@@ -172,3 +205,5 @@
 	});
 </script>
 {% endblock %}
+
+<!-- "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" -->

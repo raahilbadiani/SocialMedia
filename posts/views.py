@@ -14,11 +14,16 @@ print(BASR_DIR)
 def homePage(request):
 	print("homePage")
 	posts = Post.objects.all().order_by('-pk')
+	# profiles = Profile.objects.all()
+	# profile_pics = {}
+	# for i in profiles:
+	# 	profile_pics[i.user] = i.userdp.url
 	liked_posts = [i for i in posts if Like.objects.filter(post=i,user=request.user)]
 	
 	data = {
 		'posts':posts,
 		'liked_posts':liked_posts,	
+		# 'profile_pictures':profile_pics,
 	}
 	return render(request,"posts/homepage.html",data)
 
